@@ -16,8 +16,12 @@ class EnsureTokenIsValid
      */
     public function handle(Request $request, Closure $next)
     {
-        if (! $request ->header())
-        return $next($request);
+        if ($request->hasHeader('IDWSecurisation')) {
+            $value = $request->header('IDWSecurisation');
+            if ($value==='LEMOTDEPASSE'){
+                return $next($request);
+            }
+        }
+        return response('error 403', 403);
     }
-
 }

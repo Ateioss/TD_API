@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,9 +18,53 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
 Route::get('/', function () {
     //
-})->middleware(['first', 'second']);
+})->middleware(['first','second']);
+
+Route::middleware(['EnsureTokenIsValid'])->group(function () {
+    Route::put('/cours/{courId}', function ($courId) {
+        $cour = \App\Models\Cour::find($courId);
+
+        $formData = request()->only(['title', 'content', 'done', 'priority']);
+
+        request()->validate([
+            'title'    => 'required',
+            'content'  => 'required',
+            'done'     => 'required',
+            'priority' => 'required'
+        ]);
+
+        $cour->update($formData);
+    });
+    Route::post('/cours', function () {
+        request()->validate([
+            'nom' => 'required|string',
+            'programme' => 'required|string',
+            'description' => 'required|string',
+            'year' => 'required|date',
+            'date_debut' => 'required|date',
+            'date_fin' => 'required|date',
+            'image_url' => 'required|string',
+        ]);
+
+        $data = request()->all();
+
+        return \App\Models\Cour::create($data);
+
+    });
+    Route::delete('/cours/{courId}', function ($CourId) {
+        $Cour = \App\Models\Cour::find($CourId);
+
+        if(!$Cour) {
+            return response("Not found", 404);
+        }
+
+        $Cour->delete();
+    });
+
+});
 
 Route::get("/cours", function () {
     return \App\Models\Cour::all();
@@ -35,43 +80,8 @@ Route::get('/cours/{courId}', function ($courId) {
     return response("Cour not found", 404);
 });
 
-Route::put('/cours/{courId}', function ($courId) {
-    $cour = \App\Models\Cour::find($courId);
 
-    $formData = request()->only(['title', 'content', 'done', 'priority']);
 
-    request()->validate([
-        'title'    => 'required',
-        'content'  => 'required',
-        'done'     => 'required',
-        'priority' => 'required'
-    ]);
 
-    $cour->update($formData);
-});
 
-Route::post('/cours', function () {
-    request()->validate([
-        'nom' => 'required|string',
-        'programme' => 'required|string',
-        'description' => 'required|string',
-        'year' => 'required|date',
-        'date_debut' => 'required|date',
-        'date_fin' => 'required|date',
-        'image_url' => 'required|string',
-    ]);
 
-    $data = request()->all();
-
-    return \App\Models\Cour::create($data);
-
-});
-Route::delete('/cours/{courId}', function ($CourId) {
-    $Cour = \App\Models\Cour::find($CourId);
-
-    if(!$Cour) {
-        return response("Not found", 404);
-    }
-
-    $Cour->delete();
-});
