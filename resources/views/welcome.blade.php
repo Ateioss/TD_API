@@ -41,6 +41,12 @@
                 display:flex;
                 flex-direction:row;
             }
+            .card-infos2{
+                background-color: #7da0b1;
+                padding-left:10px;
+                display:flex;
+                flex-direction:row;
+            }
             .card-info{
                 color:white;
                 font-weight:bold;
@@ -95,7 +101,7 @@
                                     <p class="card-info">Nom</p>
                                     <p class="card-info2">${cour.nom}</p>
                                 </div>
-                                <div class="card-infos">
+                                <div class="card-infos2">
                                     <p class="card-info">Description</p>
                                     <p class="card-info2">${cour.description}</p>
                                 </div>
@@ -103,7 +109,7 @@
                                     <p class="card-info">Programme</p>
                                     <p class="card-info2">${cour.programme}</p>
                                 </div>
-                                <div class="card-infos">
+                                <div class="card-infos2">
                                     <p class="card-info">Year</p>
                                     <p class="card-info2">${cour.year}</p>
                                 </div>
@@ -111,7 +117,7 @@
                                     <p class="card-info">Date début</p>
                                     <p class="card-info2">${cour.date_debut}</p>
                                 </div>
-                                <div class="card-infos">
+                                <div class="card-infos2">
                                     <p class="card-info">Date fin</p>
                                     <p class="card-info2">${cour.date_fin}</p>
                                 </div>
